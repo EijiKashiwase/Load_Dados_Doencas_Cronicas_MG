@@ -1,0 +1,1583 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/13/2024 12:30:38 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="EIJI"
+  DTS:CreatorName="EIJI\eijik"
+  DTS:DTSID="{9C908928-73E0-4FEA-8DC3-080E931EBCAA}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="1046"
+  DTS:ObjectName="Doencas_Load"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{7A36D89A-1292-422D-BFE2-BEF31D29364F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{CBAC9DE3-9232-41A0-A0AC-0A7F338B1497}"
+      DTS:ObjectName="EIJI\SQLEXPRESS.DoencasCronicasMG">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=EIJI\SQLDEVELOPER2022;Initial Catalog=DoencasCronicasMG;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{CBAC9DE3-9232-41A0-A0AC-0A7F338B1497}EIJI\SQLEXPRESS.DoencasCronicasMG;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[get CID]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{4DFF52AA-51ED-49C2-AA55-43DBE7A5C4B4}"
+      DTS:ObjectName="get CID">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\eijik\OneDrive\Área de Trabalho\MG\Carga de Dados e Dataset\dados_cronicas_ses_2023.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[get General Data]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{EA8EFD55-6FAA-4E38-AAAB-1D40CA5FB633}"
+      DTS:ObjectName="get General Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\eijik\OneDrive\Área de Trabalho\MG\Carga de Dados e Dataset\dados_cronicas_ses_2023.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[get MG Municipios]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{90E3DBA0-36D1-45CB-8064-1FA17FD3CF50}"
+      DTS:ObjectName="get MG Municipios">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\eijik\OneDrive\Área de Trabalho\MG\Carga de Dados e Dataset\RELATORIO_DTB_BRASIL_MUNICIPIO - MG.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DROP Staging CID"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarefa Executar SQL"
+      DTS:DTSID="{F36638E6-4FC1-48A9-975F-D5A38EFEA694}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DROP Staging CID"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CBAC9DE3-9232-41A0-A0AC-0A7F338B1497}"
+          SQLTask:SqlStatementSource="DELETE FROM [dbo].[CID_ID_staging]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load CID Staging"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{894CC8D7-F5C7-4A6D-BAE5-1425678419AA}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CID Staging"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Origem do Excel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+              description="Origem do Excel"
+              name="Get CID data from Excel Spreadsheet"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">cid_causa$</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="O mapeamento de parâmetros no comando SQL para variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[get CID]"
+                  connectionManagerRefId="Package.ConnectionManagers[get CID]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel]"
+                  name="Saída de Origem do Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[co_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[desc_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[desc_cid_causa_basica]"
+                      name="desc_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[capitulo_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[capitulo_cid_causa_basica]"
+                      name="capitulo_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[categoria_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[categoria_cid_causa_basica]"
+                      name="categoria_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="desc_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="capitulo_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].ExternalColumns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="categoria_cid_causa_basica" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem do Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[desc_cid_causa_basica]"
+                      name="desc_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[capitulo_cid_causa_basica]"
+                      name="capitulo_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[categoria_cid_causa_basica]"
+                      name="categoria_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CID Staging\Load CID Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Load CID Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[CID_ID_staging]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CID Staging\Load CID Staging.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  connectionManagerRefId="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].Columns[co_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="co_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].Columns[desc_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="desc_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[desc_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].Columns[capitulo_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="capitulo_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[capitulo_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].Columns[categoria_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="categoria_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      lineageId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel].Columns[categoria_cid_causa_basica]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="desc_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="capitulo_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="categoria_cid_causa_basica" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CID Staging\Load CID Staging.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Staging\Load CID Staging.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CID Staging\Load CID Staging.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Staging\Load CID Staging.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CID Staging.Paths[Saída de Origem do Excel]"
+              endId="Package\Load CID Staging\Load CID Staging.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem do Excel"
+              startId="Package\Load CID Staging\Get CID data from Excel Spreadsheet.Outputs[Saída de Origem do Excel]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load CID Table"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{27ADDF63-91CA-4C30-9761-EA93CF3DA11A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CID Table"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CID Table\Get Data FROM staging CID"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="Get Data FROM staging CID"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT [co_cid_causa_basica]
+      ,[desc_cid_causa_basica]
+      ,[capitulo_cid_causa_basica]
+      ,[categoria_cid_causa_basica]
+  FROM [DoencasCronicasMG].[dbo].[CID_ID_staging] ORDER BY 1 ASC</property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CID Table\Get Data FROM staging CID.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  connectionManagerRefId="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[desc_cid_causa_basica]"
+                      name="desc_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[capitulo_cid_causa_basica]"
+                      name="capitulo_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[categoria_cid_causa_basica]"
+                      name="categoria_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="desc_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="capitulo_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="categoria_cid_causa_basica" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[desc_cid_causa_basica]"
+                      name="desc_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[capitulo_cid_causa_basica]"
+                      name="capitulo_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[categoria_cid_causa_basica]"
+                      name="categoria_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CID Table\Populate CID"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Populate CID"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[CID_ID]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CID Table\Populate CID.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  connectionManagerRefId="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].Columns[co_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="co_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[co_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].Columns[desc_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="desc_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[desc_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].Columns[capitulo_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="capitulo_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[capitulo_cid_causa_basica]" />
+                    <inputColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].Columns[categoria_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="categoria_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      lineageId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB].Columns[categoria_cid_causa_basica]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[desc_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="desc_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[capitulo_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="capitulo_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB].ExternalColumns[categoria_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="categoria_cid_causa_basica" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CID Table\Populate CID.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CID Table\Populate CID.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Table\Populate CID.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CID Table\Populate CID.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CID Table\Populate CID.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CID Table.Paths[Saída de Origem OLE DB]"
+              endId="Package\Load CID Table\Populate CID.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Load CID Table\Get Data FROM staging CID.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load People Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{E59F6EA5-8D30-4604-BDED-3CB874D36BC0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load People Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load People Data\General Data"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Origem do Excel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+              description="Origem do Excel"
+              name="General Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">obitos_doencas_cronicas_mg$</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="O mapeamento de parâmetros no comando SQL para variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load People Data\General Data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[get General Data]"
+                  connectionManagerRefId="Package.ConnectionManagers[get General Data]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel]"
+                  name="Saída de Origem do Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_obito]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[dt_obito]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_obito]"
+                      name="dt_obito"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_nascimento]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[dt_nascimento]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_nascimento]"
+                      name="dt_nascimento"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[nu_idade]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[nu_idade]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[nu_idade]"
+                      name="nu_idade"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[sg_sexo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[sg_sexo]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[sg_sexo]"
+                      name="sg_sexo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_raca_cor]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[tp_raca_cor]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_raca_cor]"
+                      name="tp_raca_cor"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_escolaridade]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[tp_escolaridade]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_escolaridade]"
+                      name="tp_escolaridade"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_residencia]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_municipio_ibge_residencia]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_residencia]"
+                      name="co_municipio_ibge_residencia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_ocorrencia]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_municipio_ibge_ocorrencia]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_ocorrencia]"
+                      name="co_municipio_ibge_ocorrencia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_cid_causa_basica]"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[dt_obito]"
+                      dataType="date"
+                      name="dt_obito" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[dt_nascimento]"
+                      dataType="date"
+                      name="dt_nascimento" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[nu_idade]"
+                      dataType="r8"
+                      name="nu_idade" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[sg_sexo]"
+                      dataType="wstr"
+                      length="255"
+                      name="sg_sexo" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[tp_raca_cor]"
+                      dataType="wstr"
+                      length="255"
+                      name="tp_raca_cor" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[tp_escolaridade]"
+                      dataType="wstr"
+                      length="255"
+                      name="tp_escolaridade" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_municipio_ibge_residencia]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_municipio_ibge_residencia" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_municipio_ibge_ocorrencia]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_municipio_ibge_ocorrencia" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[F10]"
+                      dataType="wstr"
+                      length="255"
+                      name="F10" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[F11]"
+                      dataType="wstr"
+                      length="255"
+                      name="F11" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].ExternalColumns[F12]"
+                      dataType="wstr"
+                      length="255"
+                      name="F12" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem do Excel">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[dt_obito]"
+                      dataType="date"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[dt_obito]"
+                      name="dt_obito" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[dt_nascimento]"
+                      dataType="date"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[dt_nascimento]"
+                      name="dt_nascimento" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[nu_idade]"
+                      dataType="r8"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[nu_idade]"
+                      name="nu_idade" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[sg_sexo]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[sg_sexo]"
+                      name="sg_sexo" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[tp_raca_cor]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[tp_raca_cor]"
+                      name="tp_raca_cor" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[tp_escolaridade]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[tp_escolaridade]"
+                      name="tp_escolaridade" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_municipio_ibge_residencia]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_municipio_ibge_residencia]"
+                      name="co_municipio_ibge_residencia" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_municipio_ibge_ocorrencia]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_municipio_ibge_ocorrencia]"
+                      name="co_municipio_ibge_ocorrencia" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[co_cid_causa_basica]"
+                      name="co_cid_causa_basica" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Erro de Origem do Excel].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load People Data\Load People Data"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino OLE DB"
+              name="Load People Data"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[People_Data]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se os valores fornecidos para colunas de identidade serão copiados no destino. Se false, os valores para colunas de identidade serão gerados automaticamente no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se as colunas que contêm null terão null inserido no destino. Se false, as colunas que contêm null terão seus valores padrão inseridos no destino. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica as opções a serem usadas com o carregamento rápido. Aplicável apenas se o carregamento rápido estiver ativado."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica quando confirmações são emitidas durante a inserção de dados. Um valor de 0 especifica que uma confirmação será emitida ao final da inserção de dados. Aplicável somente se o carregamento rápido estiver ativado."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load People Data\Load People Data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  connectionManagerRefId="Package.ConnectionManagers[EIJI\SQLEXPRESS.DoencasCronicasMG]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB]"
+                  errorOrTruncationOperation="Inserir"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de Destino OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[dt_obito]"
+                      cachedDataType="date"
+                      cachedName="dt_obito"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[dt_obito]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_obito]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[dt_nascimento]"
+                      cachedDataType="date"
+                      cachedName="dt_nascimento"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[dt_nascimento]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[dt_nascimento]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[nu_idade]"
+                      cachedDataType="r8"
+                      cachedName="nu_idade"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[nu_idade]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[nu_idade]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[sg_sexo]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="sg_sexo"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[sg_sexo]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[sg_sexo]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[tp_raca_cor]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="tp_raca_cor"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tp_raca_cor]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_raca_cor]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[tp_escolaridade]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="tp_escolaridade"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tp_escolaridade]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[tp_escolaridade]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[co_municipio_ibge_residencia]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="co_municipio_ibge_residencia"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_municipio_ibge_residencia]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_residencia]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[co_municipio_ibge_ocorrencia]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="co_municipio_ibge_ocorrencia"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_municipio_ibge_ocorrencia]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_municipio_ibge_ocorrencia]" />
+                    <inputColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].Columns[co_cid_causa_basica]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="co_cid_causa_basica"
+                      externalMetadataColumnId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      lineageId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel].Columns[co_cid_causa_basica]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[dt_obito]"
+                      dataType="dbTimeStamp"
+                      name="dt_obito" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[dt_nascimento]"
+                      dataType="dbTimeStamp"
+                      name="dt_nascimento" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[nu_idade]"
+                      dataType="r8"
+                      name="nu_idade" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[sg_sexo]"
+                      dataType="wstr"
+                      length="255"
+                      name="sg_sexo" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tp_raca_cor]"
+                      dataType="wstr"
+                      length="255"
+                      name="tp_raca_cor" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[tp_escolaridade]"
+                      dataType="wstr"
+                      length="255"
+                      name="tp_escolaridade" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_municipio_ibge_residencia]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_municipio_ibge_residencia" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_municipio_ibge_ocorrencia]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_municipio_ibge_ocorrencia" />
+                    <externalMetadataColumn
+                      refId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB].ExternalColumns[co_cid_causa_basica]"
+                      dataType="wstr"
+                      length="255"
+                      name="co_cid_causa_basica" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load People Data\Load People Data.Outputs[Saída de Erro de Destino OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Destino OLE DB"
+                  synchronousInputId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load People Data\Load People Data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load People Data\Load People Data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load People Data\Load People Data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load People Data\Load People Data.Outputs[Saída de Erro de Destino OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load People Data.Paths[Saída de Origem do Excel]"
+              endId="Package\Load People Data\Load People Data.Inputs[Entrada de Destino OLE DB]"
+              name="Saída de Origem do Excel"
+              startId="Package\Load People Data\General Data.Outputs[Saída de Origem do Excel]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restrição]"
+      DTS:CreationName=""
+      DTS:DTSID="{926B8C3D-6EC1-4E7F-937E-ED3B774E3217}"
+      DTS:From="Package\Load People Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restrição"
+      DTS:To="Package\Load CID Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restrição 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{65769CE7-D16A-498F-828E-5A0D1113C1CE}"
+      DTS:From="Package\Load CID Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restrição 1"
+      DTS:To="Package\Load CID Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restrição 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{5A200B31-5E85-4045-8F69-D728BC9692D9}"
+      DTS:From="Package\Load CID Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restrição 2"
+      DTS:To="Package\DROP Staging CID" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta seção CDATA contém as informações de layout do pacote. A seção inclui informações como coordenadas (x,y), largura e altura.-->
+<!--Se você editar manualmente esta seção e cometer algum erro, poderá excluí-la. -->
+<!--O pacote ainda poderá ser carregado normalmente, mas as informações de layout anteriores serão perdidas e o designer reorganizará automaticamente os elementos na superfície de design.-->
+<Objects
+  Version="8">
+  <!--Cada nó abaixo conterá propriedades que não afetam o comportamento em tempo de execução.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="166,42"
+          Id="Package\DROP Staging CID"
+          TopLeft="466,405" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load CID Staging"
+          TopLeft="469,181" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Load CID Table"
+          TopLeft="470,288" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load People Data"
+          TopLeft="464,57" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restrição]"
+          TopLeft="547,99">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,82"
+              Start="0,0"
+              End="0,74.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,74.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restrição 1]"
+          TopLeft="547.75,223">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,65"
+              Start="0,0"
+              End="0,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restrição 2]"
+          TopLeft="547.5,330">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load CID Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load CID Staging\Get CID data from Excel Spreadsheet"
+          TopLeft="242,146" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load CID Staging\Load CID Staging"
+          TopLeft="289,234" />
+        <EdgeLayout
+          Id="Package\Load CID Staging.Paths[Saída de Origem do Excel]"
+          TopLeft="369.5,188">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CID Staging\Load CID Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load CID Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Load CID Table\Get Data FROM staging CID"
+          TopLeft="512,165" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load CID Table\Populate CID"
+          TopLeft="541,306" />
+        <EdgeLayout
+          Id="Package\Load CID Table.Paths[Saída de Origem OLE DB]"
+          TopLeft="614.25,207">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,99"
+              Start="0,0"
+              End="0,91.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,91.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CID Table\Get Data FROM staging CID">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CID Table\Populate CID">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load People Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load People Data\Load People Data"
+          TopLeft="517,327" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Load People Data\General Data"
+          TopLeft="522,205" />
+        <EdgeLayout
+          Id="Package\Load People Data.Paths[Saída de Origem do Excel]"
+          TopLeft="595,247">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,80"
+              Start="0,0"
+              End="0,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load People Data\General Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load People Data\Load People Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
